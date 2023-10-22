@@ -1,0 +1,220 @@
+body {
+
+    padding: 0;
+    margin: 0;
+    background-color: #f8fffb !important;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #a5c7b5;
+    color: #506159;
+    font-size: 24px;
+    padding: 5px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: right;
+}
+
+.bi-facebook {
+    font-size: 15px;
+    margin: 4px;
+}
+
+.bi-instagram {
+    font-size: 15px;
+    margin: 4px;
+}
+
+.search-box input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.logosearch-container {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    background-color: #f8fffb;
+    margin-left:  0 !important;
+    margin-right: 0 !important;
+    width : 100%;
+
+}
+
+
+.logosearch-container img {
+   /* width: 200px;*/
+    width: 20%;
+}
+
+.logosearch-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-right: 10px;
+    width: 50%;
+}
+
+.logosearch-container button[type="submit"] {
+    padding: 8px 15px;
+    background-color: #a5c7b5;
+    color: #506159;
+    border: none;
+    border-radius: 3px;
+
+}
+
+.navbar {
+    background-color: #a5c7b5;
+    color: #506159;
+}
+
+.navbar-nav {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: #506159;
+}
+
+
+.side-menu {
+    background-color: #f8fffb;
+    color: #506159;
+
+}
+.side-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.side-menu li {
+    margin: 10px 0;
+}
+
+.side-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #506159;
+}
+
+.side-menu a:hover {
+    color: black;
+}
+
+
+.main-container {
+    background-color: #ffffff;
+    padding: 20px;
+
+}
+
+@media (max-width: 767.98px) {
+    .side-menu {
+        width: 0; /* Hide the side menu on small screens */
+        padding-top: 60px;
+    }
+}
+
+.content-container {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 15px;
+
+}
+
+#addToCartButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #a5c7b5; /* Set the background color */
+    color: #506159;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px; /* Round the button's corners */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Add hover effect */
+#addToCartButton:hover {
+    background-color: #45a049;
+}
+
+.card {
+    width: 100% !important;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 450px !important;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Zabezpečuje zachovanie pomeru strán a vyplnenie obsahu */
+
+}
+.card-img-top {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    height: 200px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    height: 50px;
+}
+
+.card-text {
+    font-size: 18px;
+    color: #555;
+}
+
+
+/* Štýl pre main container pre menšie obrazovky */
+@media (max-width: 767px) {
+    .main-container {
+        padding: 0px;
+    }
+    .content-container {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 15px;
+
+    }
+    .card {
+        width: 90% !important;
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
