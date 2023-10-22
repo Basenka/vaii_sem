@@ -120,13 +120,6 @@ body {
 
 }
 
-@media (max-width: 767.98px) {
-    .side-menu {
-        width: 0; /* Hide the side menu on small screens */
-        padding-top: 60px;
-    }
-}
-
 .content-container {
     margin-left: 20px;
     margin-right: 20px;
@@ -134,22 +127,23 @@ body {
 
 }
 
-#addToCartButton {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #a5c7b5; /* Set the background color */
-    color: #506159;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px; /* Round the button's corners */
-    font-size: 16px;
-    cursor: pointer;
+.addToCartButton {
+    display: inline-block !important;
+    padding: 10px 20px !important;
+    background-color: #a5c7b5 !important;
+    color: #506159 !important;
+    text-decoration: none !important;
+    border: none !important;
+    border-radius: 5px !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
 }
 
 /* Add hover effect */
-#addToCartButton:hover {
-    background-color: #45a049;
+.addToCartButton:hover {
+    background-color: #45a049 !important;
 }
+
 
 .card {
     width: 100% !important;
@@ -188,6 +182,9 @@ body {
     color: #555;
 }
 
+.input-group {
+    margin-bottom: 5px
+}
 
 /* Štýl pre main container pre menšie obrazovky */
 @media (max-width: 767px) {
@@ -202,7 +199,6 @@ body {
     }
     .card {
         width: 90% !important;
-
 
     }
 }
