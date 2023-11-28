@@ -1,75 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="stylesheet.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <title>Pink Princess</title>
-</head>
-<body>
-<div class="header">
-    <div class="header-container" >
-        <i class="bi bi-instagram"></i>
-        <i class="bi bi-facebook"></i>
-    </div>
-</div>
 
-<div class="logosearch-container">
-    <img src="PLantorea.png" alt="Logo Plantorea">
-    <input type="text" placeholder="Vyhľadávanie...">
-    <button type="submit"><i class="bi bi-search-heart"></i></button>
-</div>
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="main_page.html">Rastliny</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Kvetináče</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Terária</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Substráty</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Hnojivá</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Príslušenstvo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Darčekové poukážky</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="login_and_registration.html">Prihlásenie <i class="bi bi-person"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Košík <i class="bi bi-basket-fill"></i></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="content-container">
-    <div class="main-container">
         <div class="row">
             <div class="col-md-6">
-                <img src="pink_princ.jpg" alt="Philodendron Pink Princess" style="width:100%;">
+                <img src="public/images/pink_princ.jpg" alt="Philodendron Pink Princess" style="width:100%;">
             </div>
             <div class="col-md-6">
                 <h2>Philodendron Pink Princess</h2>
@@ -99,9 +31,3 @@
                 <p>Pamätajte, že správna starostlivosť je kľúčom k tomu, aby vaša Philodendron Pink Princess kvitla a rastla zdravo, a aby ste si mohli vychutnať jej krásne lístie po dlhú dobu.</p>
             </div>
         </div>
-    </div>
-</div>
-
-
-</body>
-</html>

@@ -1,0 +1,140 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #a5c7b5;
+    color: #506159;
+    font-size: 24px;
+    padding: 15px; /* Add padding to the top */
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: right;
+}
+
+.bi-facebook {
+    font-size: 15px;
+    margin: 4px;
+}
+
+.bi-instagram {
+    font-size: 15px;
+    margin: 4px;
+}
+.navbar {
+    background-color: #a5c7b5 !important;
+    color: #506159;
+}
+
+.navbar-nav {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: #506159;
+}
+.logosearch {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    background-color: #f8fffb;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
+}
+.logosearch .logo-link {
+    width: 25%;
+}
+
+.logosearch img {
+    width: 100%;
+}
+
+.logosearch input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-right: 10px;
+    width: 50%;
+}
+
+.logosearch button[type="submit"] {
+    padding: 8px 15px;
+    background-color: #a5c7b5;
+    color: #506159;
+    border: none;
+    border-radius: 3px;
+}
+
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.separator hr {
+    flex: 1;
+    border: none;
+    border-top: 2px solid #ddd; /* farba oddelovača */
+}
+
+.separator span {
+    margin: 0 10px;
+    color: #555; /* farba textu */
+}
+
+footer {
+    background-color: #a5c7b5;
+}
+
+.mybtn {
+    display: inline-block !important;
+    padding: 10px 20px !important;
+    background-color: #a5c7b5 !important;
+    color: #506159 !important;
+    text-decoration: none !important;
+    border: none !important;
+    border-radius: 5px !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+}
+
+/* Add hover effect */
+.mybtn:hover {
+    background-color: #45a049 !important;
+}
+
+.main-container {
+    background-color: #ffffff;
+    padding: 20px;
+
+}
+
+.content-container {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 15px;
+
+}
+
+/* Štýl pre main container pre menšie obrazovky */
+@media (max-width: 767px) {
+    .main-container {
+        padding: 0px;
+    }
+
+    .content-container {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 15px;
+
+    }
+
+}
