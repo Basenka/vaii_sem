@@ -3,6 +3,7 @@
 namespace App\Auth;
 
 use App\Core\IAuthenticator;
+use App\Models\User;
 
 /**
  * Class DummyAuthenticator
@@ -24,16 +25,18 @@ class DummyAuthenticator implements IAuthenticator
     }
 
     /**
-     * Verify, if the user is in DB and has his password is correct
-     * @param $login
-     * @param $password
+     * Verify if the user is in DB and has his password correct
+     * @param string $login
+     * @param string $password
      * @return bool
      * @throws \Exception
      */
     public function login($login, $password): bool
     {
-        if ($login == self::LOGIN && password_verify($password, self::PASSWORD_HASH)) {
-            $_SESSION['user'] = self::USERNAME;
+        $user = User::getByUsername($login);
+
+        if ($user instanceof User && password_verify($password, $user->getPassword())) {
+            $_SESSION['user'] = $user->getUsername();
             return true;
         } else {
             return false;
@@ -54,7 +57,6 @@ class DummyAuthenticator implements IAuthenticator
     /**
      * Get the name of the logged-in user
      * @return string
-     * @throws \Exception
      */
     public function getLoggedUserName(): string
     {
@@ -65,8 +67,14 @@ class DummyAuthenticator implements IAuthenticator
      * Get the context of the logged-in user
      * @return string
      */
-    public function getLoggedUserContext(): mixed
+    public function getLoggedUserContext(): ?User
     {
+        if ($this->isLogged()) {
+            // Assuming you store more than just the username in the session
+            $username = $_SESSION['user'];
+            return User::getByUsername($username);
+        }
+
         return null;
     }
 

@@ -54,10 +54,17 @@
                 </li>
             </ul>
             <?php if ($auth->isLogged()) { ?>
-                <span class="navbar-text">Prihlásený používateľ: <b><?= $auth->getLoggedUserName() ?></b></span>
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= $auth->getLoggedUserName() ?> <i class="bi bi-person"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="<?= $link->url("user.profile") ?>">Zobraziť profil</a></li>
+                            <li><a class="dropdown-item" href="<?= $link->url("auth.logout") ?>">Odhlásenie</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Odhlásenie</a>
                         <a class="nav-link" href="#">Košík <i class="bi bi-basket-fill"></i></a>
                     </li>
                 </ul>

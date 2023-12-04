@@ -106,11 +106,14 @@ footer {
     cursor: pointer !important;
 }
 
-/* Add hover effect */
 .mybtn:hover {
     background-color: #45a049 !important;
 }
 
+.btn-danger {
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+}
 .main-container {
     background-color: #ffffff;
     padding: 20px;
@@ -122,6 +125,35 @@ footer {
     margin-right: 20px;
     padding: 15px;
 
+}
+.form-container {
+     display: flex;
+     justify-content: space-between;
+ }
+
+.my-form {
+    width: 100%; /* Prispôsobí šírku formulára */
+}
+
+.my-form.login-form,
+.my-form.registration-form {
+    flex: 1; /* Rozťahuje formuláre, aby zaplnil dostupný priestor */
+    margin-right: 20px; /* Medzera medzi formulármi */
+}
+.forms-wrapper {
+    display: flex; /* Používa flexbox layout */
+    justify-content: space-between; /* Rozmiestňuje elementy tak, aby boli medzi nimi rovnaké medzery */
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+.vertical-line {
+    height: 100%; /* Výška oddelovača */
+    width: 1px; /* Šírka oddelovača */
+    background-color: #ccc; /* Farba oddelovača - môžete prispôsobiť podľa potreby */
+    margin: 0 20px; /* Rozostup na oboch stranách oddelovača */
 }
 
 /* Štýl pre main container pre menšie obrazovky */
@@ -138,3 +170,92 @@ footer {
     }
 
 }
+
+.password-input-container, .confirm-password-input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.toggle-password, .toggle-confirm-password{
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    background-color: #a5c7b5;
+    color: #506159;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.sidebar a {
+    padding: 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #506159;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #45a049;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+}
+
+h2 {
+    color: #333;
+}
+
+
+@media (max-width: 991px) {
+    .container {
+        padding: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: static;
+        box-shadow: none;
+        z-index: initial;
+        background-color: #a5c7b5;
+        color: #506159;
+    }
+
+    .sidebar a {
+        padding: 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #506159;
+        display: block;
+        transition: background-color 0.3s;
+    }
+
+    .sidebar a:hover {
+        background-color: #45a049;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+
+

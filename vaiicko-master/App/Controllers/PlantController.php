@@ -7,9 +7,9 @@ use App\Core\HTTPException;
 use App\Core\Responses\RedirectResponse;
 use App\Core\Responses\Response;
 use App\Helpers\FileStorage;
-use App\Models\Post;
+use App\Models\Plant;
 
-class PostController extends AControllerBase
+class PlantController extends AControllerBase
 {
     /**
      * @inheritDoc
@@ -26,15 +26,15 @@ class PostController extends AControllerBase
     public function edit(): Response
     {
         $id = (int) $this->request()->getValue('id');
-        $post = Post::getOne($id);
+        $plant = Plant::getOne($id);
 
-        if (is_null($post)) {
+        if (is_null($plant)) {
             throw new HTTPException(404);
         }
 
         return $this->html(
             [
-                'post' => $post
+                'plant' => $plant
             ]
         );
     }
@@ -45,19 +45,19 @@ class PostController extends AControllerBase
         $oldFileName = "";
 
         if ($id > 0) {
-            $post = Post::getOne($id);
-            $oldFileName = $post->getPicture();
+            $plant = Plant::getOne($id);
+            $oldFileName = $plant->getPicture();
         } else {
-            $post = new Post();
+            $plant = new Plant();
         }
-        $post->setText($this->request()->getValue('text'));
-        $post->setPicture($this->request()->getFiles()['picture']['name']);
+        $plant->setText($this->request()->getValue('text'));
+        $plant->setPicture($this->request()->getFiles()['picture']['name']);
 
         $formErrors = $this->formErrors();
         if (count($formErrors) > 0) {
             return $this->html(
                 [
-                    'post' => $post,
+                    'plant' => $plant,
                     'errors' => $formErrors
                 ], 'add'
             );
@@ -66,8 +66,8 @@ class PostController extends AControllerBase
                 FileStorage::deleteFile($oldFileName);
             }
             $newFileName = FileStorage::saveFile($this->request()->getFiles()['picture']);
-            $post->setPicture($newFileName);
-            $post->save();
+            $plant->setPicture($newFileName);
+            $plant->save();
             return new RedirectResponse($this->url("home.index"));
         }
     }
@@ -75,13 +75,13 @@ class PostController extends AControllerBase
     public function delete()
     {
         $id = (int) $this->request()->getValue('id');
-        $post = Post::getOne($id);
+        $plant = Plant::getOne($id);
 
-        if (is_null($post)) {
+        if (is_null($plant)) {
             throw new HTTPException(404);
         } else {
-            FileStorage::deleteFile($post->getPicture());
-            $post->delete();
+            FileStorage::deleteFile($plant->getPicture());
+            $plant->delete();
             return new RedirectResponse($this->url("home.index"));
         }
     }

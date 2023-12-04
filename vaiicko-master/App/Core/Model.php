@@ -189,7 +189,41 @@ abstract class Model implements \JsonSerializable
             throw new \Exception('Query failed: ' . $e->getMessage(), 0, $e);
         }
     }
+    public static function getByUsername($username)
+    {
+        self::connect();
+        try {
+            $sql = "SELECT * FROM `" . static::getTableName() . "` WHERE `username` = :username LIMIT 1";
+            $stmt = self::getConnection()->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+            $stmt->execute([':username' => $username]);
+            $user = $stmt->fetch();
+            if ($user !== false) {
+                $user->_dbId = $user->{static::getPkColumnName()};
+            }
+            return $user;
+        } catch (\PDOException $e) {
+            throw new \Exception('Query failed: ' . $e->getMessage(), 0, $e);
+        }
+    }
+    public static function getByEmail($email)
+    {
+        self::connect();
+        try {
+            $sql = "SELECT * FROM `" . static::getTableName() . "` WHERE `email` = :email LIMIT 1";
+            $stmt = self::getConnection()->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+            $stmt->execute([':email' => $email]);
+            $user = $stmt->fetch();
+            if ($user !== false) {
+                $user->_dbId = $user->{static::getPkColumnName()};
+            }
 
+            return $user;
+        } catch (\PDOException $e) {
+            throw new \Exception('Query failed: ' . $e->getMessage(), 0, $e);
+        }
+    }
     /**
      * Delete current model from DB
      * @throws \Exception If model not exists, throw an exception

@@ -1,7 +1,9 @@
 <?php
 
 /** @var string $contentHTML */
+/** @var \App\Core\LinkGenerator $link */
 ?>
+
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -17,6 +19,13 @@
     <script src="public/js/script.js"></script>
 </head>
 <body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="<?= $link->url("user.profile") ?>">Moje Údaje</a>
+    <a href="#">Moje Objednávky</a>
+    <a href="<?= $link->url("home.index") ?>">E-shop</a>
+</div>
+
 <div class="container-fluid mt-3">
     <div class="web-content">
         <?= $contentHTML ?>

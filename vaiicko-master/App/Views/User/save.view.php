@@ -13,25 +13,19 @@ if (!is_null(@$data['errors'])): ?>
 
 <div class="content-container form-container">
     <div class="forms-wrapper">
-        <form class="my-form login-form" method="post" action="<?= $link->url("login") ?>">
+        <form class="my-form login-form">
             <h3>Prihlásenie</h3>
-
             <div class="form-group">
                 <label for="login-username">Používateľské meno:</label>
-                <input type="text" id="login" name="login" class="form-control" required>
+                <input type="text" id="login-username" name="login-username" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label for="login-password">Heslo:</label>
-                <div class="password-input-container">
-                    <input type="password" id="password" name="password" class="form-control" required>
-                    <button type="button" id="toggle-password" class="toggle-password"><i class="bi bi-eye"></i></button>
-                </div>
+                <input type="password" id="login-password" name="login-password" class="form-control" required>
             </div>
 
-
-                <button class="btn mybtn btn-primary" type="submit" name="submit">Prihlásiť
-                </button>
+            <input type="submit" value="Prihlásiť sa" class="btn mybtn btn-primary">
         </form>
 
         <div class="vertical-line"></div> <!-- Zvislý oddelovač -->
@@ -168,19 +162,6 @@ if (!is_null(@$data['errors'])): ?>
             // Zmena textu na tlačidle podľa typu pola
             togglePasswordButton.innerHTML = passwordInput.type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i></i>';
         });
-
-        var loginPasswordInput = document.getElementById('password');
-        var toggleLoginPasswordButton = document.getElementById('toggle-password');
-
-        toggleLoginPasswordButton.addEventListener('click', function () {
-            // Zmena typu vstupného pola medzi "password" a "text"
-            loginPasswordInput.type = loginPasswordInput.type === 'password' ? 'text' : 'password';
-
-            // Zmena textu na tlačidle podľa typu pola
-            toggleLoginPasswordButton.innerHTML = loginPasswordInput.type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i></i>';
-        });
     });
-
-
 </script>
 
