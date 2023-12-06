@@ -20,7 +20,14 @@ class UserController extends AControllerBase
     {
         return $this->html();
     }
-
+    public function registrationSuccessful(): Response
+    {
+        return $this->html();
+    }
+    public function deleted(): Response
+    {
+        return $this->html();
+    }
     public function profile(): Response
     {
 
@@ -61,7 +68,7 @@ class UserController extends AControllerBase
         $this->app->getAuth()->logout();
         $user->delete();
 
-        return new RedirectResponse($this->url("home.index"));
+        return new RedirectResponse($this->url("user.deleted"));
     }
 
 
@@ -108,12 +115,18 @@ class UserController extends AControllerBase
         $formErrors = $this->formErrors();
 
         if (count($formErrors) > 0) {
-            return $this->html(
-                [
-                    'user' => $user,
-                    'errors' => $formErrors
-                ]
-            );
+            if($id > 0) {
+
+            }
+            else {
+                return $this->html(
+                    [
+                        'user' => $user,
+                        'errors' => $formErrors
+                    ]
+                );
+            }
+
         } else {
             if ($id > 0) {
                 // ak pouzivatel existuje, nastavim atributy na povodne hodnoty
@@ -125,7 +138,7 @@ class UserController extends AControllerBase
                 }
 
 
-                $passwordValue = $this->request()->getValue('password');
+                $passwordValue = $this->request()->getValue('register-password');
                 if (!empty($passwordValue)) {
                     $user->setPassword($passwordValue);
                 }
@@ -137,7 +150,7 @@ class UserController extends AControllerBase
             if ($id > 0) {
                 return new RedirectResponse($this->url("user.profile"));
             }
-            return new RedirectResponse($this->url("home.index"));
+            return new RedirectResponse($this->url("user.registrationSuccessful"));
         }
     }
 
@@ -163,7 +176,7 @@ class UserController extends AControllerBase
             $errors[] = "Účet s daným e-mailom už existuje!";
         }
 
-/*
+
         // Kontrola dĺžky hesla
         if (strlen($password) < 8 || strlen($password) > 20) {
             $errors[] = "Heslo musí mať od 8 do 20 znakov!";
@@ -173,7 +186,7 @@ class UserController extends AControllerBase
         if ($password !== $confirmPassword) {
             $errors[] = "Heslo a potvrdenie hesla sa nezhodujú!";
         }
-*/
+
         return $errors;
     }
 

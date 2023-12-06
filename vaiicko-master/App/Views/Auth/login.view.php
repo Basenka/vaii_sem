@@ -54,17 +54,19 @@ if (!is_null(@$data['errors'])): ?>
                 <label for="register-password">Heslo:</label>
                 <div class="password-input-container">
                     <input type="password" id="register-password" name="register-password" class="form-control" required >
-                    <button type="button" id="toggle-password" class="toggle-password"><i class="bi bi-eye"></i></button>
+                    <button type="button" id="toggle-register-password" class="toggle-register-password"><i class="bi bi-eye"></i></button>
                 </div>
                 <div id="password-error" class="error-message"></div>
                 <div id="password-strength"></div>
             </div>
             <div class="form-group">
                 <label for="confirm-password">Potvrďte heslo:</label>
-                <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
+                <div class="password-input-container">
+                    <input type="password" id="confirm-password" name="confirm-password" class="form-control"  >
+                    <button type="button" id="toggle-confirm-password" class="toggle-confirm-password"><i class="bi bi-eye"></i></button>
+                </div>
                 <div id="confirm-password-error" class="error-message"></div>
             </div>
-
             <input type="submit" value="Registrovať sa" class="btn mybtn btn-primary">
         </form>
     </div>
@@ -155,31 +157,6 @@ if (!is_null(@$data['errors'])): ?>
         }
     });
 
-
-    //zobrazovanie a skryvanie hesla
-    document.addEventListener('DOMContentLoaded', function () {
-        var passwordInput = document.getElementById('password');
-        var togglePasswordButton = document.getElementById('toggle-password');
-
-        togglePasswordButton.addEventListener('click', function () {
-            // Zmena typu vstupného pola medzi "password" a "text"
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-
-            // Zmena textu na tlačidle podľa typu pola
-            togglePasswordButton.innerHTML = passwordInput.type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i></i>';
-        });
-
-        var loginPasswordInput = document.getElementById('password');
-        var toggleLoginPasswordButton = document.getElementById('toggle-password');
-
-        toggleLoginPasswordButton.addEventListener('click', function () {
-            // Zmena typu vstupného pola medzi "password" a "text"
-            loginPasswordInput.type = loginPasswordInput.type === 'password' ? 'text' : 'password';
-
-            // Zmena textu na tlačidle podľa typu pola
-            toggleLoginPasswordButton.innerHTML = loginPasswordInput.type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i></i>';
-        });
-    });
 
 
 </script>

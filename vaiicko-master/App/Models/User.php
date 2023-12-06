@@ -71,22 +71,13 @@ class User extends Model
 
     public function setPassword(?string $password): void
     {
-        // Check if $password is null before calling strlen
-        if ($password !== null) {
-            // Kontrola délky hesla před zahashováním
-            $passwordLength = strlen($password);
-            if ($passwordLength < 8 || $passwordLength > 20) {
-                throw new \Exception("Heslo musí mít od 8 do 20 znaků!");
-            }
 
-            // Zahashování hesla
+        // Zahashování hesla
+        if($password != null) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $this->password = $hashedPassword;
-        } else {
-            // Handle the case where $password is null (if needed)
-            // For example, throw an exception or set a default password
-            throw new \Exception("Password cannot be null."); // Or set a default password
         }
+
     }
 
 
@@ -100,50 +91,6 @@ class User extends Model
     {
         $this->address = $address;
     }
-
-    public function save(): void
-    {
-        // Pred uložením modelu môžete vykonať vaše vlastné validácie.
-        $this->validate();
-
-        // Voláme metódu save z predka, ktorá vykoná vlastné uloženie modelu do databázy.
-        parent::save();
-    }
-
-
-    private function validate(): void
-    {
-        $this->validateUniqueUsername();
-        $this->validateUniqueEmail();
-
-    }
-
-    private function validateUniqueUsername(): void
-    {
-        // Check if $this->username is initialized before accessing it
-        if (!isset($this->username)) {
-            throw new \Exception("Používateľské meno nie je inicializované!");
-        }
-
-        $existingUser = self::getByUsername($this->username);
-        if ($existingUser !== false) {
-            if ($existingUser->getId() !== $this->getId()) {
-                throw new \Exception("Používateľské meno je už registrované!");
-            }
-        }
-    }
-
-
-    private function validateUniqueEmail(): void
-    {
-        $existingUser = self::getByEmail($this->email);
-        if ($existingUser !== false) {
-            if ($existingUser->getId() !== $this->getId()) {
-                throw new \Exception("E-mail je už registrovaný!");
-            }
-        }
-    }
-
 
 
 }

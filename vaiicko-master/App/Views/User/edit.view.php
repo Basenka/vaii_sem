@@ -54,12 +54,12 @@ $layout = 'profile';
             </div>
 
             <div class="form-group">
-                <label for="register-password">New Password:</label>
+                <label for="register-password">Nové heslo:</label>
                 <input type="password" id="register-password" name="register-password" class="form-control" >
             </div>
 
             <div class="form-group">
-                <label for="confirm-password">Confirm Password:</label>
+                <label for="confirm-password">Potvrďte heslo:</label>
                 <input type="password" id="confirm-password" name="confirm-password" class="form-control">
             </div>
 
@@ -75,15 +75,45 @@ $layout = 'profile';
 </div>
 
 <script>
-    //nastavi confirm heslo ako Required ak je zadane heslo
     document.addEventListener('DOMContentLoaded', function () {
-        var passwordInput = document.getElementById('password');
-        var confirmPasswordInput = document.getElementById('confirm-password');
-
-        passwordInput.addEventListener('input', function () {
-            confirmPasswordInput.required = passwordInput.value.trim().length > 0;
+        var form = document.querySelector('.my-form');
+        form.addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
         });
 
-        confirmPasswordInput.required = passwordInput.value.trim().length > 0;
+        function validateForm() {
+            var nameInput = document.getElementById('name');
+            var surnameInput = document.getElementById('surname');
+            var addressInput = document.getElementById('address');
+            var emailInput = document.getElementById('email');
+            var passwordInput = document.getElementById('register-password');
+            var confirmPasswordInput = document.getElementById('confirm-password');
+
+            if (emailInput.value.trim() === '') {
+                alert('Vyplňte pole "Email".');
+                return false;
+            }
+
+
+            if (!isValidEmail(emailInput.value)) {
+                alert('Zadajte platnu emailovu adresu.');
+                return false;
+            }
+
+
+            if (passwordInput.value.trim() !== confirmPasswordInput.value.trim()) {
+                alert('Heslo a potvrdzujuce heslo sa nezhoduju.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function isValidEmail(email)
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
     });
 </script>
+

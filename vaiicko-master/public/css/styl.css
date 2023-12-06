@@ -177,7 +177,7 @@ footer {
     position: relative;
 }
 
-.toggle-password, .toggle-confirm-password{
+.toggle-password, .toggle-confirm-password, .toggle-register-password{
     position: absolute;
     right: 10px;
     cursor: pointer;
