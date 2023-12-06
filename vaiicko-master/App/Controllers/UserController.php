@@ -80,20 +80,13 @@ class UserController extends AControllerBase
             // Ulozenie existujuceho username a id
             $originalUsername = $user->getUsername();
             $originalId = $user->getId();
-            $emailValue = $this->request()->getValue('email');
-            if (!empty($emailValue)) {
-                $user->setEmail($emailValue);
-            }
 
-            $passwordValue = $this->request()->getValue('password');
-            if (!empty($passwordValue)) {
-                $user->setPassword($passwordValue);
-            }
+
         } else {
             $user = new User();
             $user->setUsername($this->request()->getValue('username'));
             $user->setEmail($this->request()->getValue('email'));
-            $user->setPassword($this->request()->getValue('password'));
+            $user->setPassword($this->request()->getValue('register-password'));
         }
 
         // Nastavujem atributy, ktore sa mozu menit
@@ -126,10 +119,25 @@ class UserController extends AControllerBase
                 // ak pouzivatel existuje, nastavim atributy na povodne hodnoty
                 $user->setUsername($originalUsername);
                 $user->setId($originalId);
+                $emailValue = $this->request()->getValue('email');
+                if (!empty($emailValue)) {
+                    $user->setEmail($emailValue);
+                }
+
+
+                $passwordValue = $this->request()->getValue('password');
+                if (!empty($passwordValue)) {
+                    $user->setPassword($passwordValue);
+                }
+
             }
 
             $user->save();
-            return new RedirectResponse($this->url("user.profile"));
+
+            if ($id > 0) {
+                return new RedirectResponse($this->url("user.profile"));
+            }
+            return new RedirectResponse($this->url("home.index"));
         }
     }
 
@@ -142,7 +150,7 @@ class UserController extends AControllerBase
         $id = (int) $this->request()->getValue('id');
         $username = $this->request()->getValue('username');
         $email = $this->request()->getValue('email');
-        $password = $this->request()->getValue('password');
+        $password = $this->request()->getValue('register-password');
         $confirmPassword = $this->request()->getValue('confirm-password');
 
         // Kontrola unikátnosti používateľského mena
@@ -155,7 +163,7 @@ class UserController extends AControllerBase
             $errors[] = "Účet s daným e-mailom už existuje!";
         }
 
-
+/*
         // Kontrola dĺžky hesla
         if (strlen($password) < 8 || strlen($password) > 20) {
             $errors[] = "Heslo musí mať od 8 do 20 znakov!";
@@ -165,7 +173,7 @@ class UserController extends AControllerBase
         if ($password !== $confirmPassword) {
             $errors[] = "Heslo a potvrdenie hesla sa nezhodujú!";
         }
-
+*/
         return $errors;
     }
 
@@ -174,10 +182,10 @@ class UserController extends AControllerBase
         $user = User::getByUsername($username);
 
         if ($user instanceof User) {
-            // If the user exists, and the ID is different from the one being edited, return false
+            //ak pouzivatel existuje a ID je ine ako to ktore editujem vrati false
             return $user->getId() === $id;
         } else {
-            // If the user doesn't exist, or it's the same user being edited, return true
+            //ak pouzivatel neexistuje alebo je to ten editovany vratim true
             return true;
         }
     }
@@ -188,10 +196,8 @@ class UserController extends AControllerBase
         $user = User::getByEmail($email);
 
         if ($user instanceof User) {
-            // Ak používateľ neexistuje, alebo existuje s rovnakým ID (pre aktualizáciu), vráti true
             return $user === null || ($user instanceof User && $user->getId() === $id);
         } else {
-            // Používateľ neexistuje, môžete zvoliť správanie podľa potreby, napr. považovať za unikátne
             return true;
         }
     }

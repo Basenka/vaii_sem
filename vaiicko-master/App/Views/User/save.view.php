@@ -126,9 +126,9 @@ if (!is_null(@$data['errors'])): ?>
             passwordStrength.innerHTML = passwordStrengthMessage;
 
             if (!uppercase || !lowercase || !number || !specialChar || password.length < 8 || password.length > 20) {
-                passwordError.textContent = 'Heslo nespĺňa všetky požadované podmienky.';
+                passwordError.textContent = 'Vaše heslo je slabé.';
             } else {
-                passwordError.textContent = '';
+                passwordError.textContent = 'Vaše heslo je silné.';
             }
         }
 

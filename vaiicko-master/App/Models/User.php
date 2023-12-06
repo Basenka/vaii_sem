@@ -69,18 +69,26 @@ class User extends Model
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(?string $password): void
     {
-        // Kontrola délky hesla před zahashováním
-        $passwordLength = strlen($password);
-        if ($passwordLength < 8 || $passwordLength > 20) {
-            throw new \Exception("Heslo musí mít od 8 do 20 znaků!");
-        }
+        // Check if $password is null before calling strlen
+        if ($password !== null) {
+            // Kontrola délky hesla před zahashováním
+            $passwordLength = strlen($password);
+            if ($passwordLength < 8 || $passwordLength > 20) {
+                throw new \Exception("Heslo musí mít od 8 do 20 znaků!");
+            }
 
-        // Zahashování hesla
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $this->password = $hashedPassword;
+            // Zahashování hesla
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $this->password = $hashedPassword;
+        } else {
+            // Handle the case where $password is null (if needed)
+            // For example, throw an exception or set a default password
+            throw new \Exception("Password cannot be null."); // Or set a default password
+        }
     }
+
 
 
     public function getAddress(): ?string

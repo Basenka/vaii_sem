@@ -15,7 +15,7 @@ if (!is_null(@$data['errors'])): ?>
     <div class="forms-wrapper">
         <form class="my-form login-form" method="post" action="<?= $link->url("login") ?>">
             <h3>Prihlásenie</h3>
-
+            <?= @$data['message'] ?>
             <div class="form-group">
                 <label for="login-username">Používateľské meno:</label>
                 <input type="text" id="login" name="login" class="form-control" required>
@@ -51,9 +51,9 @@ if (!is_null(@$data['errors'])): ?>
             </div>
 
             <div class="form-group">
-                <label for="password">Heslo:</label>
+                <label for="register-password">Heslo:</label>
                 <div class="password-input-container">
-                    <input type="password" id="password" name="password" class="form-control" required>
+                    <input type="password" id="register-password" name="register-password" class="form-control" required >
                     <button type="button" id="toggle-password" class="toggle-password"><i class="bi bi-eye"></i></button>
                 </div>
                 <div id="password-error" class="error-message"></div>
@@ -75,7 +75,7 @@ if (!is_null(@$data['errors'])): ?>
     document.addEventListener('DOMContentLoaded', function () {
         var usernameInput = document.getElementById('username');
         var emailInput = document.getElementById('email');
-        var passwordInput = document.getElementById('password');
+        var passwordInput = document.getElementById('register-password');
         var confirmPasswordInput = document.getElementById('confirm-password');
 
         usernameInput.addEventListener('input', validateUsername);
@@ -132,9 +132,9 @@ if (!is_null(@$data['errors'])): ?>
             passwordStrength.innerHTML = passwordStrengthMessage;
 
             if (!uppercase || !lowercase || !number || !specialChar || password.length < 8 || password.length > 20) {
-                passwordError.textContent = 'Heslo nespĺňa všetky požadované podmienky.';
+                passwordError.textContent = 'Vaše heslo je slabé.';
             } else {
-                passwordError.textContent = '';
+                passwordError.textContent = 'Vaše heslo je silné.';
             }
         }
 

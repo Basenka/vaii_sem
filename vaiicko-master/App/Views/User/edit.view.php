@@ -54,8 +54,8 @@ $layout = 'profile';
             </div>
 
             <div class="form-group">
-                <label for="password">New Password:</label>
-                <input type="password" id="password" name="password" class="form-control" >
+                <label for="register-password">New Password:</label>
+                <input type="password" id="register-password" name="register-password" class="form-control" >
             </div>
 
             <div class="form-group">
@@ -65,7 +65,8 @@ $layout = 'profile';
 
             <div class="form-group">
                 <button type="submit" class="btn mybtn">Uložiť zmeny</button>
-                <a href="<?= $link->url('user.delete', ['id' => $data['user']->getId()]) ?>" class="btn btn-danger">Vymazať</a>            </div>
+                <a href="<?= $link->url('user.delete', ['id' => $data['user']->getId()]) ?>" class="btn btn-danger">Vymazať</a>
+            </div>
         </form>
 
     <?php else : ?>
@@ -74,16 +75,15 @@ $layout = 'profile';
 </div>
 
 <script>
+    //nastavi confirm heslo ako Required ak je zadane heslo
     document.addEventListener('DOMContentLoaded', function () {
         var passwordInput = document.getElementById('password');
         var confirmPasswordInput = document.getElementById('confirm-password');
 
         passwordInput.addEventListener('input', function () {
-            // Make the "Confirm Password" field required only if a new password is entered
             confirmPasswordInput.required = passwordInput.value.trim().length > 0;
         });
 
-        // Initial check when the page loads
         confirmPasswordInput.required = passwordInput.value.trim().length > 0;
     });
 </script>
