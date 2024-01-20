@@ -22,32 +22,35 @@ $layout = 'admin';
         <button class="btn mybtn" onclick="applyFilter()">Filtrovať</button>
         <button class="btn mybtn" onclick="clearFilter()">Zrušiť filter</button>
     </div>
-    <table id="orderTable">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>ID používateľa</th>
-            <th>Dátum</th>
-            <th>Celková cena</th>
-            <th>Stav objednávky</th>
-            <th>Vymazať</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php $orders = $data['orders'];
-        foreach ($orders as $order): ?>
-            <tr onclick="window.location='<?= $link->url('admin.orderDetails', ['id' => $order->getId()]) ?>';" style="cursor:pointer;">
-                <td><?= $order->getId() ?></td>
-                <td><?= $order->getUserId() ?></td>
-                <td><?= $order->getDate() ?></td>
-                <td><?= $order->getTotalPrice() ?></td>
-                <td><?= $order->getStatus() ?></td>
-                <td><a href="<?= $link->url('order.delete', ['id' => $order->getId()]) ?>"
-                       class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a></td>
+    <div class="table-responsive">
+        <table id="orderTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID používateľa</th>
+                <th>Dátum</th>
+                <th>Celková cena</th>
+                <th>Stav objednávky</th>
+                <th>Vymazať</th>
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <?php $orders = $data['orders'];
+            foreach ($orders as $order): ?>
+                <tr onclick="window.location='<?= $link->url('admin.orderDetails', ['id' => $order->getId()]) ?>';"
+                    style="cursor:pointer;">
+                    <td><?= $order->getId() ?></td>
+                    <td><?= $order->getUserId() ?></td>
+                    <td><?= $order->getDate() ?></td>
+                    <td><?= $order->getTotalPrice() ?></td>
+                    <td><?= $order->getStatus() ?></td>
+                    <td><a href="<?= $link->url('order.delete', ['id' => $order->getId()]) ?>"
+                           class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

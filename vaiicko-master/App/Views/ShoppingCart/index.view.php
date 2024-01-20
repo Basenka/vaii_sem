@@ -26,52 +26,38 @@ $orderItemsArray = [];
                 }
 
                 ?>
-
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body d-flex align-items-center">
-
-                                <?php $orderItemsArray[] = $cartItem; ?>
-                                <img src="<?= \App\Helpers\FileStorage::UPLOAD_DIR . '/' . $product->getImage() ?>"
-                                     alt="Item Image" class="me-3"
-                                     style="max-width: 100px;">
-
-                                <div class="col-2">
-                                    <h5 class="card-title"><?= $product->getName(); ?></h5>
-                                </div>
-                                <div class="col-1">
-                                    <p class="card-text"><?= $product->getPrice() . '€'; ?></p>
-
-                                </div>
-
-                                <div class="input-group">
-                                    <button class="btn btn-outline-secondary minus-button" type="button" onclick="decrementQuantity()">-</button>
-                                    <input type="text" class="form-control quantity-input" id="quantity" value="<?= $cartItem->getQuantity(); ?>" aria-label="Quantity" style="max-width: 35px;">
-                                    <button class="btn btn-outline-secondary plus-button" type="button" onclick="incrementQuantity()">+</button>
-                                </div>
-                                <?php $totalPrice += $cartItem->getQuantity() * $product->getPrice(); ?>
-                                <a href="<?= $link->url('shoppingCart.delete', ['item_id' => $cartItem->getId()]) ?>"
-                                   class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a>
-                            </div>
+                <div class="card mb-3">
+                    <img src="<?= \App\Helpers\FileStorage::UPLOAD_DIR . '/' . $product->getImage() ?>"
+                         alt="Item Image" class="card-img-top img-fluid"
+                         style="max-height: 150px; object-fit: contain;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $product->getName(); ?></h5>
+                        <p class="card-text"><?= $product->getPrice() . '€'; ?></p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary minus-button" type="button" onclick="decrementQuantity()">-</button>
+                            <input type="text" class="form-control quantity-input" id="quantity" value="<?= $cartItem->getQuantity(); ?>" aria-label="Quantity" style="max-width: 35px;">
+                            <button class="btn btn-outline-secondary plus-button" type="button" onclick="incrementQuantity()">+</button>
                         </div>
+                        <a href="<?= $link->url('shoppingCart.delete', ['item_id' => $cartItem->getId()]) ?>" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>
                     </div>
                 </div>
+                <?php $totalPrice += $cartItem->getQuantity() * $product->getPrice(); ?>
             <?php endforeach; ?>
+        </div>
+    </div>
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <h4>Celková cena: <?= $totalPrice ?>€</h4>
-                </div>
+    <div class="col-12 mb-3">
+        <h4>Celková cena: <?= $totalPrice ?>€</h4>
+    </div>
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-6">
+                <a href="<?= $link->url("home.index") ?>" class="btn mybtn">Pokračovať v nákupe</a>
+                <button type="button" class="btn mybtn" id="checkoutButton">Objednať</button>
             </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <a href="<?= $link->url("home.index") ?>" class="btn mybtn">Pokračovať v nákupe</a>
-                    <button type="button" class="btn mybtn" id="checkoutButton">Objednať</button>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>

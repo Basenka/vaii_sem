@@ -21,29 +21,31 @@ $layout = 'admin';
         <button class="btn mybtn" onclick="applyFilter()">Filtrovať</button>
         <button class="btn mybtn" onclick="clearFilter()">Zrušiť filter</button>
     </div>
-    <table id="productTable">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Meno</th>
-            <th>Cena</th>
-            <th>Vymazať</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <?php $products = $data['products'];
-         foreach ($products as $product): ?>
+    <div class="table-responsive">
+        <table id="productTable">
+            <thead>
             <tr>
-                <td><?= $product->getId() ?></td>
-                <td><?= $product->getName() ?></td>
-                <td><?= $product->getPrice() ?></td>
-                <td><a href="<?= $link->url('product.delete', ['id' => $product->getId()]) ?>"
-                       class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a></td>
+                <th>ID</th>
+                <th>Meno</th>
+                <th>Cena</th>
+                <th>Vymazať</th>
+
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <?php $products = $data['products'];
+            foreach ($products as $product): ?>
+                <tr>
+                    <td><?= $product->getId() ?></td>
+                    <td><?= $product->getName() ?></td>
+                    <td><?= $product->getPrice() ?></td>
+                    <td><a href="<?= $link->url('product.delete', ['id' => $product->getId()]) ?>"
+                           class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

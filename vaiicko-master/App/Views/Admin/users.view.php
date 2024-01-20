@@ -26,37 +26,38 @@ $layout = 'admin';
         <button class="btn mybtn" onclick="clearFilter()">Zrušiť filter</button>
     </div>
 
-
-    <table id="userTable" >
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Meno</th>
-            <th>Priezvisko</th>
-            <th>Užívateľské meno</th>
-            <th>Email</th>
-            <th>Adresa</th>
-            <th>Rola</th>
-            <th>Vymazať</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php $users = $data['users'];
-       foreach ($users as $user): ?>
+    <div class="table-responsive">
+        <table id="userTable">
+            <thead>
             <tr>
-                <td><?= $user->getId() ?></td>
-                <td><?= $user->getName() ?></td>
-                <td><?= $user->getSurname() ?></td>
-                <td><?= $user->getUsername() ?></td>
-                <td><?= $user->getEmail() ?></td>
-                <td><?= $user->getAddress() ?></td>
-                <td><?= $user->getRole() ?></td>
-                <td><a href="<?= $link->url('user.delete', ['id' => $user->getId()]) ?>"
-                       class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a></td>
+                <th>ID</th>
+                <th>Meno</th>
+                <th>Priezvisko</th>
+                <th>Užívateľské meno</th>
+                <th>Email</th>
+                <th>Adresa</th>
+                <th>Rola</th>
+                <th>Vymazať</th>
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <?php $users = $data['users'];
+            foreach ($users as $user): ?>
+                <tr>
+                    <td><?= $user->getId() ?></td>
+                    <td><?= $user->getName() ?></td>
+                    <td><?= $user->getSurname() ?></td>
+                    <td><?= $user->getUsername() ?></td>
+                    <td><?= $user->getEmail() ?></td>
+                    <td><?= $user->getAddress() ?></td>
+                    <td><?= $user->getRole() ?></td>
+                    <td><a href="<?= $link->url('user.delete', ['id' => $user->getId()]) ?>"
+                           class="btn btn-outline-danger ms-3"><i class="bi bi-x-circle"></i></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
