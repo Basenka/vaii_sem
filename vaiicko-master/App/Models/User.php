@@ -13,8 +13,9 @@ class User extends Model
     protected ?string $email;
     protected ?string $password;
     protected ?string $address;
+    protected ?string $role;
+    protected ?string $salt;
 
-    // Getter and setter methods for attributes
 
     public function getId(): ?int
     {
@@ -71,14 +72,14 @@ class User extends Model
 
     public function setPassword(?string $password): void
     {
-
-        // Zahashování hesla
-        if($password != null) {
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        if ($password !== null) {
+            $salt = bin2hex(random_bytes(16)); // Vygeneruj random salt
+            $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT); //zahashuj haslo
             $this->password = $hashedPassword;
+            $this->setSalt($salt);
         }
-
     }
+
 
 
 
@@ -90,6 +91,26 @@ class User extends Model
     public function setAddress(string $address): void
     {
         $this->address = $address;
+    }
+
+    public function setRole($role) : void
+    {
+        $this->role = $role;
+    }
+
+    public function getRole() : ?string
+    {
+        return $this->role;
+    }
+
+    public function getSalt(): ?string
+    {
+        return $this->salt;
+    }
+
+    public function setSalt(?string $salt): void
+    {
+        $this->salt = $salt;
     }
 
 

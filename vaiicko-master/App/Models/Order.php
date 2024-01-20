@@ -8,13 +8,18 @@ class Order extends Model
 {
     protected ?int $id = null;
     protected ?int $user_id;
-    protected ?int $plant_id;
-    protected ?int $quantity;
     protected ?string $date;
+    protected ?int $total_price;
+    protected ?string $status;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getUserId(): ?int
@@ -22,29 +27,9 @@ class Order extends Model
         return $this->user_id;
     }
 
-    public function setUserId(int $user_id): void
+    public function setUserId(?int $user_id): void
     {
         $this->user_id = $user_id;
-    }
-
-    public function getPlantId(): ?int
-    {
-        return $this->plant_id;
-    }
-
-    public function setPlantId(int $plant_id): void
-    {
-        $this->plant_id = $plant_id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): void
-    {
-        $this->quantity = $quantity;
     }
 
     public function getDate(): ?string
@@ -52,8 +37,30 @@ class Order extends Model
         return $this->date;
     }
 
-    public function setDate(string $date): void
+    public function setDate(?string $date): void
     {
         $this->date = $date;
     }
+
+    public function getTotalPrice(): ?int
+    {
+        return $this->total_price;
+    }
+
+    public function setTotalPrice(?int $total_price): void
+    {
+        $this->total_price = $total_price;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
+    }
+
+
 }

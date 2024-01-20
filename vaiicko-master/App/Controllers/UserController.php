@@ -4,17 +4,62 @@ namespace App\Controllers;
 
 use App\Core\AControllerBase;
 use App\Core\HTTPException;
+use App\Core\Responses\JsonResponse;
 use App\Core\Responses\RedirectResponse;
 use App\Core\Responses\Response;
-use App\Helpers\FileStorage;
 use App\Models\User;
+use App\Validators\UserValidator;
 
 class UserController extends AControllerBase
 {
+    public function authorize($action): bool
+    {
+        $user = $this->app->getAuth()->getLoggedUserContext();
+        switch ($action) {
+            case 'index' :
+            case 'add':
+            case 'registrationSuccessful':
+            case 'deleted':
+            case 'save':
+                return true;
+
+            case 'orders' :
+            case 'profile' :
+            case 'edit':
+            case 'delete' :
+                return $this->app->getAuth()->isLogged();
+
+            case 'filtered':
+            case 'all' :
+                return $user->getRole() == 'admin' or $user->getRole() == 'employee';
+
+            default:
+                return false;
+        }
+    }
     public function index(): Response
     {
     }
 
+    public function filtered(): JsonResponse
+    {
+        $filterValue = $this->request()->getValue('filter');
+        $filterColumn = $this->request()->getValue('column');
+
+        $allowedColumns = ['username', 'email', 'name', 'surname', 'role', 'address' ];
+        if (!in_array($filterColumn, $allowedColumns)) {
+            // Neplatný stĺpec
+            return new JsonResponse(['error' => 'Neplatný stĺpec pre filtrovanie']);
+        }
+        $filteredUsers = \App\Models\User::getFiltered([$filterColumn => $filterValue]);
+        return new JsonResponse($filteredUsers);
+    }
+
+    public function all() : JsonResponse
+    {
+        $users = \App\Models\User::getAll();
+        return new JsonResponse($users);
+    }
 
     public function add(): Response
     {
@@ -40,6 +85,19 @@ class UserController extends AControllerBase
             ]
         );
     }
+
+    public function orders(): Response
+    {
+        $user = $this->app->getAuth()->getLoggedUserContext();
+        $filteredOrders = \App\Models\Order::getFiltered(['user_id' => $user->getId()]);
+        return $this->html(
+            [
+                'orders' => $filteredOrders
+            ]
+        );
+
+    }
+
     public function edit(): Response
     {
         $id = (int)$this->request()->getValue('id');
@@ -72,147 +130,85 @@ class UserController extends AControllerBase
     }
 
 
-    public function save()
+    public function save(): JsonResponse
     {
-        $id = (int)$this->request()->getValue('id');
+        $id = (int) $this->request()->getValue('id');
 
-        //ziskanie uz existujecho uctu
+        $validator = new UserValidator();
+
         if ($id > 0) {
             $user = User::getOne($id);
-
-            if (is_null($user)) {
-                throw new HTTPException(404);
-            }
-
-            // Ulozenie existujuceho username a id
-            $originalUsername = $user->getUsername();
-            $originalId = $user->getId();
-
-
         } else {
             $user = new User();
-            $user->setUsername($this->request()->getValue('username'));
-            $user->setEmail($this->request()->getValue('email'));
-            $user->setPassword($this->request()->getValue('register-password'));
+            $user->setRole($this->request()->getValue('role'));
         }
 
-        // Nastavujem atributy, ktore sa mozu menit
-        $nameValue = $this->request()->getValue('name');
-        if (!empty($nameValue)) {
-            $user->setName($nameValue);
-        }
+        // Validacia uživatelského mena
+        $username = $this->request()->getValue('username');
+        $usernameError = $validator->validateUsername($id, $username);
 
-        $surnameValue = $this->request()->getValue('surname');
-        if (!empty($surnameValue)) {
-            $user->setSurname($surnameValue);
-        }
+        // Validacia mailu
+        $email = $this->request()->getValue('email');
+        $emailError = $validator->validateEmail($id, $email);
+
+        // Validacia hesla
+
+        $password = $this->request()->getValue('password');
+        $confirmPassword = $this->request()->getValue('confirm-password');
+        $passwordErrors = ($password !== '' || $confirmPassword !== '') ? $validator->validatePassword($password, $confirmPassword) : [];
+
+        // Validace mena, priezviska a adresy iba ak su zadane hodnoty
+        $name = $this->request()->getValue('name');
+        $nameError = (!empty($name)) ? $validator->validateName($name) : '';
+
+        $surname = $this->request()->getValue('surname');
+        $surnameError = (!empty($surname)) ? $validator->validateSurname($surname) : '';
 
         $address = $this->request()->getValue('address');
-        if (!empty($address)) {
-            $user->setAddress($address);
-        }
+        $addressError = (!empty($address)) ? $validator->validateAddress($address) : '';
 
-        $formErrors = $this->formErrors();
+        // zoznam validacnych chyb
+        $formErrors = compact('usernameError', 'emailError', 'passwordErrors', 'nameError', 'surnameError', 'addressError');
 
-        if (count($formErrors) > 0) {
-            if($id > 0) {
+        $response = ['success' => false, 'errors' => $formErrors];
 
-            }
-            else {
-                return $this->html(
-                    [
-                        'user' => $user,
-                        'errors' => $formErrors
-                    ]
-                );
+        if (empty(array_filter($formErrors))) {
+            // Validacia prešla
+
+            // Nastavenie hodnot
+            $user->setUsername($username);
+            $user->setEmail($email);
+            if(!($id > 0) || $password = $this->request()->getValue('password') !== '') {
+                $user->setPassword($password);
             }
 
-        } else {
-            if ($id > 0) {
-                // ak pouzivatel existuje, nastavim atributy na povodne hodnoty
-                $user->setUsername($originalUsername);
-                $user->setId($originalId);
-                $emailValue = $this->request()->getValue('email');
-                if (!empty($emailValue)) {
-                    $user->setEmail($emailValue);
-                }
+            $nameValue = $this->request()->getValue('name');
+            if (!empty($nameValue)) {
+                $user->setName($nameValue);
+            }
 
+            $surnameValue = $this->request()->getValue('surname');
+            if (!empty($surnameValue)) {
+                $user->setSurname($surnameValue);
+            }
 
-                $passwordValue = $this->request()->getValue('register-password');
-                if (!empty($passwordValue)) {
-                    $user->setPassword($passwordValue);
-                }
-
+            $address = $this->request()->getValue('address');
+            if (!empty($address)) {
+                $user->setAddress($address);
             }
 
             $user->save();
 
-            if ($id > 0) {
-                return new RedirectResponse($this->url("user.profile"));
+            $response['success'] = true;
+            if($id > 0) {
+                $response['redirect'] = $this->url("user.profile");
+            }else {
+                $response['redirect'] = $this->url("user.registrationSuccessful");
             }
-            return new RedirectResponse($this->url("user.registrationSuccessful"));
-        }
-    }
 
-
-
-    private function formErrors(): array
-    {
-        $errors = [];
-
-        $id = (int) $this->request()->getValue('id');
-        $username = $this->request()->getValue('username');
-        $email = $this->request()->getValue('email');
-        $password = $this->request()->getValue('register-password');
-        $confirmPassword = $this->request()->getValue('confirm-password');
-
-        // Kontrola unikátnosti používateľského mena
-        if (!$this->isUsernameUnique($id, $username)) {
-            $errors[] = "Používateľské meno je už obsadené, použité iné!";
         }
 
-        // Kontrola unikátnosti e-mailu
-        if (!$this->isEmailUnique($id, $email)) {
-            $errors[] = "Účet s daným e-mailom už existuje!";
-        }
-
-
-        // Kontrola dĺžky hesla
-        if (strlen($password) < 8 || strlen($password) > 20) {
-            $errors[] = "Heslo musí mať od 8 do 20 znakov!";
-        }
-
-        // Kontrola zhody hesla a potvrdenia hesla
-        if ($password !== $confirmPassword) {
-            $errors[] = "Heslo a potvrdenie hesla sa nezhodujú!";
-        }
-
-        return $errors;
-    }
-
-    private function isUsernameUnique($id, $username): bool
-    {
-        $user = User::getByUsername($username);
-
-        if ($user instanceof User) {
-            //ak pouzivatel existuje a ID je ine ako to ktore editujem vrati false
-            return $user->getId() === $id;
-        } else {
-            //ak pouzivatel neexistuje alebo je to ten editovany vratim true
-            return true;
-        }
-    }
-
-
-    public function isEmailUnique($id, $email): bool
-    {
-        $user = User::getByEmail($email);
-
-        if ($user instanceof User) {
-            return $user === null || ($user instanceof User && $user->getId() === $id);
-        } else {
-            return true;
-        }
+        return new JsonResponse($response);
     }
 
 

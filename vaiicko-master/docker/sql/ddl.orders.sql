@@ -1,14 +1,18 @@
-CREATE TABLE `Orders` (
-                          `id` int(150) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                          `user_id` int(150) NOT NULL,
-                          `plant_id` int(150) NOT NULL,
-                          `quantity` int(50) NOT NULL,
-                          `date` timestamp NOT NULL
+CREATE TABLE `orders` (
+                          `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                          `user_id` INT NULL,
+                          `date` TIMESTAMP NOT NULL,
+                          `total_price` INT NOT NULL,
+                          `status` VARCHAR(50) NOT NULL DEFAULT 'Processing',
+                          FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
 
-ALTER TABLE Orders
-    ADD CONSTRAINT fk_user
-        FOREIGN KEY (user_id) REFERENCES Users(id),
-    ADD CONSTRAINT fk_plant
-        FOREIGN KEY (plant_id) REFERENCES Plants(id);
-
+CREATE TABLE `orderitems` (
+                               `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                               `order_id` INT NULL,
+                               `product_id` INT NOT NULL,
+                               `quantity` INT NOT NULL,
+                               `unit_price` INT NOT NULL,
+                               FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`),
+                               FOREIGN KEY (`product_id`) REFERENCES `products`(`id`)
+);

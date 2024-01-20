@@ -31,17 +31,21 @@ class DummyAuthenticator implements IAuthenticator
      * @return bool
      * @throws \Exception
      */
+    //upravená metóda login pre prihlasenie pomocou databázy
     public function login($login, $password): bool
     {
         $user = User::getByUsername($login);
 
-        if ($user instanceof User && password_verify($password, $user->getPassword())) {
+        if ($user instanceof User && password_verify($password . $user->getSalt(), $user->getPassword())) {
+            // Heslo bolo verifkovane, nastav session
             $_SESSION['user'] = $user->getUsername();
             return true;
         } else {
+            // Neplatné prihlásenie
             return false;
         }
     }
+
 
     /**
      * Logout the user
@@ -50,6 +54,7 @@ class DummyAuthenticator implements IAuthenticator
     {
         if (isset($_SESSION["user"])) {
             unset($_SESSION["user"]);
+            session_regenerate_id(true);
             session_destroy();
         }
     }
@@ -95,4 +100,5 @@ class DummyAuthenticator implements IAuthenticator
     {
         return $_SESSION['user'];
     }
+
 }

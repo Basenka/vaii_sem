@@ -3,6 +3,7 @@
 /** @var string $contentHTML */
 /** @var \App\Core\IAuthenticator $auth */
 /** @var \App\Core\LinkGenerator $link */
+/** @var \App\Auth\AccessManager $accessManager */
 ?>
 <!DOCTYPE html>
 <html lang="sk">
@@ -17,7 +18,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="public/css/styl.css">
-    <script src="public/js/script.js"></script>
+ <!--   <script src="public/js/script.js"></script> -->
 </head>
 <body>
 
@@ -47,38 +48,50 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= $link->url("home.catalog") ?>">Rastliny</a>
+                    <a class="nav-link" href="<?= $link->url("home.index") ?>">Rastliny</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= $link->url("home.contact") ?>">Kvetináče</a>
+                    <a class="nav-link" href="<?= $link->url("home.index") ?>">Kvetináče</a>
                 </li>
+
+                <?php if ($auth->isLogged()) {
+                    $user = $auth->getLoggedUserContext();
+                    if ($user->getRole() == 'employee' or $user->getRole() == 'admin') { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= $link->url("product.add") ?>">Pridať produkt</a>
+                        </li>
+                    <?php }
+                 ?>
             </ul>
-            <?php if ($auth->isLogged()) { ?>
-                <ul class="navbar-nav ms-auto">
+
+            <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= $auth->getLoggedUserName() ?> <i class="bi bi-person"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="<?= $link->url("user.profile") ?>">Zobraziť profil</a></li>
+                            <?php
+                            $user = $auth->getLoggedUserContext();
+                            if ($user->getRole() == 'admin') { ?>
+                            <li><a class="dropdown-item" href="<?= $link->url("admin.index") ?>">Admin zobrazenie</a></li>
+                             <?php } ?>
                             <li><a class="dropdown-item" href="<?= $link->url("auth.logout") ?>">Odhlásenie</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Košík <i class="bi bi-basket-fill"></i></a>
-                    </li>
-                </ul>
+
             <?php } else { ?>
+                </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="<?= \App\Config\Configuration::LOGIN_URL ?>">Prihlásenie <i
                                     class="bi bi-person"></i></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= $link->url("home.basket") ?>">Košík <i class="bi bi-basket-fill"></i></a>
-                    </li>
-                </ul>
             <?php } ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $link->url("ShoppingCart.index") ?>">Košík <i class="bi bi-basket-fill"></i></a>
+            </li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -92,3 +105,4 @@
 
 
 </html>
+

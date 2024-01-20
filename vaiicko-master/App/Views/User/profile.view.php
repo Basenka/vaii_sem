@@ -10,7 +10,6 @@ $user = $auth->getLoggedUserContext();
  ?>
 
 
-<!-- Content -->
 <div class="content">
     <h2>Tvoj Profil</h2>
 

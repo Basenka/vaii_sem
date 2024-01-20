@@ -268,4 +268,83 @@ abstract class Model implements \JsonSerializable
     {
         throw new \Exception("Attribute `$name` doesn't exist in the model " . get_called_class() . ".");
     }
+
+    // ...
+
+    /**
+     * Return an array of models from DB based on the provided filter
+     * @param array $filterConditions An associative array of column names and their corresponding values
+     * @param string|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return static[]
+     * @throws \Exception
+     */
+    public static function getFiltered(array $filterConditions, ?string $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    {
+        //pripojenie k databáze
+        self::connect();
+        try {
+            //zaciatok sql dotazu
+            $sql = "SELECT * FROM `" . static::getTableName() . "`";
+
+            $whereClause = [];
+            $whereParams = [];
+
+            // Kontrola platných stĺpcov
+            $allowedColumns = static::getDbColumns();
+            foreach ($filterConditions as $column => $value) {
+                /*
+                if (!in_array($column, $allowedColumns)) {
+                    throw new \Exception("Invalid column '$column' for filtering.");
+                }
+*/
+                //zostavenie where podmienky
+                if ($value !== null) {
+                    $whereClause[] = "`$column` = ?";
+                    $whereParams[] = $value;
+                } else {
+
+                    $whereClause[] = "`$column` IS NULL";
+                }
+            }
+
+            //pridam do dotazu where cast
+            if (!empty($whereClause)) {
+                $sql .= " WHERE " . implode(' AND ', $whereClause);
+            }
+
+            if ($orderBy !== null) {
+                $sql .= " ORDER BY $orderBy";
+            }
+
+            if ($limit !== null) {
+                $sql .= " LIMIT $limit";
+            }
+
+            if ($offset !== null) {
+                $sql .= " OFFSET $offset";
+            }
+
+            //priprava a vykonanie sql prikazu
+            $stmt = self::$connection->prepare($sql);
+            $stmt->execute($whereParams);
+
+            //vytvorenie instancii triedy pre vsetky vysledky dotazu
+            //PDO::FETCH_PROPS_LATE znamena ze najrpv sa vytvori objekt a potom sa mu priradia vlastnosti
+            $models = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+
+            //nastavuje vlastnost _dbId na hodnotu primarneho kluca
+            //_dbId je nejaka predpoklada vlastnost
+            foreach ($models as $model) {
+                $model->_dbId = $model->{static::getPkColumnName()};
+            }
+
+            return $models;
+        } catch (PDOException $e) {
+            throw new \Exception('Query failed: ' . $e->getMessage(), 0, $e);
+        }
+    }
+
+
 }
