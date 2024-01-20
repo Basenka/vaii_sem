@@ -25,6 +25,7 @@ $orderItemsArray = [];
                     }
                 }
 
+                $orderItemsArray[] = $cartItem;
                 ?>
                 <div class="card mb-3">
                     <img src="<?= \App\Helpers\FileStorage::UPLOAD_DIR . '/' . $product->getImage() ?>"
